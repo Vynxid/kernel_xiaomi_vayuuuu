@@ -39,7 +39,7 @@ jobs:
           sudo apt install gcc-arm-linux-gnueabi -y
           sudo apt install aria2 binutils make python3 libssl-dev build-essential bc bison flex unzip libssl-dev ca-certificates xz-utils mkbootimg cpio device-tree-compiler git git-lfs -y
           curl -LSs "https://raw.githubusercontent.com/Poko-Apps/MemKernel/main/kernel/setup.sh" | bash -s Y
-          aria2c -j$(nproc --all) $(curl -fsSL https://github.com/onettboots/boolx-clang-build/releases/download/Boolx-21/boolx-clang21.tar.gz)
+          aria2c -j$(nproc --all) $(curl -fsSL https://raw.githubusercontent.com/Vynxid/Clang/refs/heads/main/Clang-main-link.txt)
           mkdir zyc-clang
           tar -xzvf Clang-*.tar.gz -C zyc-clang >> /dev/null
           git clone https://github.com/osm0sis/AnyKernel3
@@ -49,7 +49,7 @@ jobs:
           rm -rf AnyKernel3/.git* AnyKernel3/README.md
           # mem module
           curl -LSs "https://raw.githubusercontent.com/Poko-Apps/MemKernel/main/kernel/setup.sh" | bash -s M vinn
-    
+
       - name: GetTime
         id: get_time
         run: |
@@ -60,7 +60,7 @@ jobs:
           export PATH=$(pwd)/zyc-clang/bin/:$PATH
           make $KERNEL_CMDLINE $KERNEL_DEFCONFIG CC="ccache clang"
           make $KERNEL_CMDLINE CC="ccache clang" -j$(nproc --all)
-          cp out/arch/arm64/boot/Image.gz-dtb AnyKernel3
+          cp out/arch/arm64/boot/Image.gz AnyKernel3
 
       - name: Upload Kernel-SU
         uses: actions/upload-artifact@v4
